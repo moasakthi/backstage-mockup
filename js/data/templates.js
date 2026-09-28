@@ -1,0 +1,51 @@
+/** Golden-path templates. Each one materializes boilerplate, CI, CodeQL, Terraform, Argo CD, and OpenTelemetry. */
+export const TEMPLATES = [
+  {
+    id: "java-spring-react",
+    name: "Java · Spring Boot · React",
+    stackKind: "java-react",
+    stackLabel: "Java, Spring Boot, React",
+    summary: "Containerized Spring Boot API and React UI on EKS.",
+    includes: ["Spring Boot service", "React client", "Dockerfile", "GitHub Actions CI", "CodeQL", "Terraform", "Argo CD application", "OpenTelemetry values", "catalog-info.yaml"],
+  },
+  {
+    id: "mern",
+    name: "MERN",
+    stackKind: "mern",
+    stackLabel: "MERN, MongoDB",
+    summary: "MongoDB, Express, React, and Node on EKS.",
+    includes: ["Express API", "React client", "Dockerfile", "GitHub Actions CI", "CodeQL", "Terraform", "Argo CD application", "OpenTelemetry values", "catalog-info.yaml"],
+  },
+  {
+    id: "mean",
+    name: "MEAN",
+    stackKind: "mean",
+    stackLabel: "MEAN, MongoDB",
+    summary: "MongoDB, Express, Angular, and Node on EKS.",
+    includes: ["Express API", "Angular client", "Dockerfile", "GitHub Actions CI", "CodeQL", "Terraform", "Argo CD application", "OpenTelemetry values", "catalog-info.yaml"],
+  },
+  {
+    id: "fastapi-react",
+    name: "Python · FastAPI · React",
+    stackKind: "fastapi-react",
+    stackLabel: "Python, FastAPI, React",
+    summary: "FastAPI service and React UI on EKS.",
+    includes: ["FastAPI service", "React client", "Dockerfile", "GitHub Actions CI", "CodeQL", "Terraform", "Argo CD application", "OpenTelemetry values", "catalog-info.yaml"],
+  },
+  {
+    id: "fastapi-angular",
+    name: "Python · FastAPI · Angular",
+    stackKind: "fastapi-angular",
+    stackLabel: "Python, FastAPI, Angular",
+    summary: "FastAPI service and Angular UI on EKS.",
+    includes: ["FastAPI service", "Angular client", "Dockerfile", "GitHub Actions CI", "CodeQL", "Terraform", "Argo CD application", "OpenTelemetry values", "catalog-info.yaml"],
+  },
+  {
+    id: "next-react",
+    name: "Node.js · Next.js · React",
+    stackKind: "next",
+    stackLabel: "Next.js, React",
+    summary: "Next.js application on EKS with the standard delivery path.",
+    includes: ["Next.js app", "Dockerfile", "GitHub Actions CI", "CodeQL", "Terraform", "Argo CD application", "OpenTelemetry values", "catalog-info.yaml"],
+  },
+];

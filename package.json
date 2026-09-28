@@ -1,0 +1,9 @@
+{
+  "name": "nh44-idp-mockup",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server 5173",
+    "check": "node tests/smoke.mjs"
+  }
+}

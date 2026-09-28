@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NH44 IDP</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23101417' width='32' height='32' rx='6'/%3E%3Cpath d='M8 6v20M16 10v16M24 6v20' stroke='%23E39B2B' stroke-width='2'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./css/tokens.css" />
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/layout.css" />
+    <link rel="stylesheet" href="./css/components.css" />
+    <link rel="stylesheet" href="./css/pages.css" />
+  </head>
+  <body>
+    <a class="skip" href="#outlet">Skip to content</a>
+    <div id="app"></div>
+    <div id="toaster" aria-live="polite"></div>
+    <div id="modal-root"></div>
+    <div id="chat-root" hidden></div>
+    <!-- SheetJS is optional. CSV onboarding works if this CDN cannot be reached. -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- Modules cannot load from a file:// page. Serve the folder over HTTP. -->
+    <script>
+      if (location.protocol === "file:") {
+        document.getElementById("app").innerHTML =
+          '<main style="max-width:36rem;margin:4rem auto;padding:0 1.25rem;font-family:sans-serif">' +
+          "<h1>Open NH44 IDP over HTTP</h1>" +
+          "<p>This portal uses JavaScript modules. A file opened from disk is blocked by the browser.</p>" +
+          "<p>In the project folder, run:</p>" +
+          "<pre>python3 -m http.server 5173</pre>" +
+          '<p>Then open <a href="http://127.0.0.1:5173/">http://127.0.0.1:5173/</a></p>' +
+          "</main>";
+      } else {
+        const script = document.createElement("script");
+        script.type = "module";
+        script.src = "./js/main.js";
+        document.body.append(script);
+      }
+    </script>
+  </body>
+</html>
