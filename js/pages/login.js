@@ -1,11 +1,10 @@
 /** Marketing story (three quarters) and Microsoft Entra ID sign-in (one quarter). */
 import { el } from "../dom.js";
 import { commit, getState } from "../store.js";
-import { toggleTheme } from "../theme.js";
 
 const SLIDES = [
   {
-    kicker: "TKM · NH44",
+    kicker: "Toyota · Internal portal",
     title: "One portal for the developer journey.",
     body: "NH44 IDP is the internal developer portal for TKM. Fourteen cloud applications, one Entra ID door, and the tools already connected: GitHub, Actions, Argo CD, AWS, Grafana, CodeQL, Jira, and Confluence.",
     facts: [["14", "Applications in the assessed portfolio"], ["1", "Pilot to prove the path — gpms"], ["0", "Tokens typed into this portal"]],
@@ -43,7 +42,10 @@ export function render(container) {
     el("p", { class: "kicker" }, slide.kicker),
     el("h1", {}, slide.title),
     el("p", { class: "lede" }, slide.body),
-    el("div", { class: "facts" }, slide.facts.map(([title, copy]) => el("div", {}, [el("strong", {}, title), el("p", { class: "hint" }, copy)]))),
+    el("div", { class: "facts" }, slide.facts.map(([title, copy]) => el("div", { class: "fact" }, [
+      el("strong", {}, title),
+      el("p", { class: "hint" }, copy),
+    ]))),
   ]));
   const dots = SLIDES.map((_, dotIndex) => el("button", {
     type: "button",
@@ -64,18 +66,28 @@ export function render(container) {
 
   container.replaceChildren(el("div", { class: "login-screen" }, [
     el("section", { class: "slider", onMouseenter: () => clearInterval(timer), onMouseleave: arm }, [
-      el("div", { class: "lane-art", "aria-hidden": "true" }),
-      ...slides,
+      el("div", { class: "login-atmosphere", "aria-hidden": "true" }, [
+        el("div", { class: "login-grid" }),
+        el("div", { class: "lane-art" }),
+      ]),
+      el("header", { class: "login-hero-brand" }, [
+        el("p", { class: "login-brand-name" }, "NH44"),
+        el("p", { class: "login-brand-tag" }, "Internal developer portal"),
+      ]),
+      el("div", { class: "slide-stage" }, slides),
       el("div", { class: "dots" }, dots),
     ]),
     el("aside", { class: "login-pane" }, [
-      el("div", { class: "spread" }, [
-        el("div", {}, [el("p", { class: "kicker" }, "NH44 - IDP"), el("h2", {}, "TKM sign in")]),
-        el("button", { type: "button", class: "btn btn-ghost btn-sm", onClick: () => { toggleTheme(); render(container); } }, getState().theme === "dark" ? "Light" : "Dark"),
+      el("div", { class: "login-pane-inner" }, [
+        el("div", { class: "login-brand" }, [
+          el("img", { class: "brand-logo", src: "./NH44_logo.png", alt: "", width: "120", height: "120", decoding: "async" }),
+          el("p", { class: "login-brand-name" }, "NH44"),
+          el("h2", {}, "Sign In"),
+        ]),
+        el("p", { class: "login-pane-copy" }, "Toyota employees use Microsoft Entra ID. This portal does not keep a local password."),
+        button,
+        el("p", { class: "hint login-pane-meta" }, `Tenant ${"tkm.onmicrosoft.com"}. Plugins are already configured. This mock keeps data in the browser.`),
       ]),
-      el("p", { class: "hint" }, "TKM employees use Microsoft Entra ID. This portal does not keep a local password."),
-      button,
-      el("p", { class: "hint" }, `Tenant ${"tkm.onmicrosoft.com"}. Plugins are already configured. This mock keeps data in the browser.`),
     ]),
   ]));
   arm();

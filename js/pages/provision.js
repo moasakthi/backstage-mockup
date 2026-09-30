@@ -10,6 +10,7 @@ export function render(container) {
   const roles = state.roles.filter((role) => user.roleIds.includes(role.id)).map((role) => role.name);
   container.replaceChildren(el("div", { class: "boundary" }, [
     el("div", { class: "card stack", style: "width:min(560px,100%)" }, [
+      el("img", { class: "brand-logo", src: "./NH44_logo.png", alt: "NH44 IDP", width: "72", height: "72", decoding: "async" }),
       el("p", { class: "kicker" }, "NH44 - IDP"),
       el("h1", {}, "Your Backstage user is ready."),
       el("p", { class: "lede" }, "Microsoft Entra ID authenticated this session. NH44 provisions the catalog user from that profile. There is no separate password."),

@@ -1,9 +1,8 @@
-/** Application chrome: asphalt sidebar, search, role preview, theme, profile. */
+/** Application chrome: asphalt sidebar, search, role preview, profile. */
 import { el } from "../dom.js";
 import { getState, commit } from "../store.js";
 import { can, effectiveRole } from "../rbac.js";
 import { requestRefresh } from "../bus.js";
-import { toggleTheme } from "../theme.js";
 import { searchPortal } from "../services/search.js";
 import { toast } from "./toast.js";
 
@@ -28,7 +27,9 @@ export function mountShell(root, route) {
   const role = effectiveRole(state);
   const sidebar = el("aside", { class: "sidebar", id: "sidebar" }, [
     el("div", { class: "brand" }, [
-      el("span", { class: "brand-mark", html: '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 5v22M16 11v16M24 5v22" stroke="currentColor" stroke-width="2" fill="none"/></svg>' }),
+      el("span", { class: "brand-mark" }, [
+        el("img", { src: "./NH44_logo.png", alt: "NH44 IDP", width: "40", height: "40", decoding: "async" }),
+      ]),
       el("div", {}, [el("strong", {}, "NH44 - IDP"), el("span", {}, "TKM developer portal")]),
     ]),
     el("nav", { class: "nav", "aria-label": "Primary" }, NAV.filter(([module]) => can(module, "read")).map(([module, label, href]) => {
@@ -72,36 +73,32 @@ export function mountShell(root, route) {
       },
     }, "Menu"),
     el("div", { class: "search" }, [input, results]),
-    el("label", { class: "cluster hint" }, [
-      "View as",
-      el("select", {
-        "aria-label": "View as role",
-        value: state.session.viewAsRoleId,
-        onChange: (event) => {
-          const next = event.target.value;
-          const picked = getState().roles.find((item) => item.id === next);
-          commit((current) => {
-            current.session.viewAsRoleId = next;
-          }, { action: "View as role", detail: picked?.name || next, module: "access" });
-          toast(`Viewing as ${picked?.name || "role"}`);
-          requestRefresh();
-        },
-      }, state.roles.map((item) => el("option", { value: item.id }, item.name))),
-    ]),
-    el("button", {
-      type: "button",
-      class: "btn btn-ghost btn-sm",
-      onClick: toggleTheme,
-      "aria-label": "Toggle color theme",
-    }, state.theme === "dark" ? "Light" : "Dark"),
-    el("div", { class: "profile" }, [
-      el("button", {
-        type: "button",
-        class: "avatar",
-        "aria-label": "Open profile menu",
-        onClick: () => { menu.hidden = !menu.hidden; },
-      }, user.name.slice(0, 1)),
-      menu,
+    el("div", { class: "header-actions" }, [
+      el("label", { class: "cluster hint" }, [
+        "View as",
+        el("select", {
+          "aria-label": "View as role",
+          value: state.session.viewAsRoleId,
+          onChange: (event) => {
+            const next = event.target.value;
+            const picked = getState().roles.find((item) => item.id === next);
+            commit((current) => {
+              current.session.viewAsRoleId = next;
+            }, { action: "View as role", detail: picked?.name || next, module: "access" });
+            toast(`Viewing as ${picked?.name || "role"}`);
+            requestRefresh();
+          },
+        }, state.roles.map((item) => el("option", { value: item.id }, item.name))),
+      ]),
+      el("div", { class: "profile" }, [
+        el("button", {
+          type: "button",
+          class: "avatar",
+          "aria-label": "Open profile menu",
+          onClick: () => { menu.hidden = !menu.hidden; },
+        }, user.name.slice(0, 1)),
+        menu,
+      ]),
     ]),
   ]);
 

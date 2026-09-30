@@ -1,58 +1,67 @@
 /**
- * Indigo Pulse theme for NH44 IDP.
- * Dark is a deep indigo field. Light is a cool paper surface.
- * The accent is an indigo pulse used on actions, the active nav item, and focus.
+ * TKM application design tokens for NH44 IDP (internal-operational).
+ * Derived from TKM-Brand-UIUX-Guidelines.md. Existing component variables
+ * (--bg, --accent, --ok, …) map onto the approved semantic palette.
+ * Single fixed theme — no dark/light switch.
  */
 :root {
-  color-scheme: dark;
-  --bg: #0c1022;
-  --bg-elev: #161b33;
-  --bg-sunken: #090d1c;
-  --ink: #eef0ff;
-  --ink-muted: #a8b0d4;
-  --line: #2c335c;
-  --accent: #7c6cff;
-  --accent-ink: #f8f7ff;
-  --signal: #a5b4fc;
-  --pulse: rgba(124, 108, 255, 0.45);
-  --ok: #6ee7b7;
-  --warn: #fbbf24;
-  --bad: #fb7185;
-  --info: #c4b5fd;
-  --shadow: 0 18px 50px rgba(6, 8, 24, 0.45);
-  --side-bg: #10142b;
-  --side-ink: #eef0ff;
-  --side-muted: #9aa3c7;
-  --side-line: #2a3158;
-  --side-active: rgba(124, 108, 255, 0.22);
-  --font: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  /* Brand (use sparingly — not every control) */
+  --brand-red: #EB0A1E;
+  --brand-black: #000000;
+  --brand-white: #FFFFFF;
+
+  /* Spacing (4 px base) and radii */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Motion */
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+  --duration-slow: 320ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Typography — licensed Toyota Type/Univers when available; approved fallbacks otherwise */
+  --font: "Noto Sans", "Segoe UI", Arial, sans-serif;
+  --mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+
   --sidebar: 248px;
   --header: 64px;
-  --radius: 14px;
-  --space: 20px;
-}
+  --radius: var(--radius-md);
+  --space: var(--space-5);
+  --content-max: 1440px;
 
-:root[data-theme="light"] {
   color-scheme: light;
-  --bg: #f4f5fb;
-  --bg-elev: #ffffff;
-  --bg-sunken: #e8eaf6;
-  --ink: #1e1b4b;
-  --ink-muted: #5c6188;
-  --line: #d9dcf0;
-  --accent: #4f46e5;
-  --accent-ink: #ffffff;
-  --signal: #6366f1;
-  --pulse: rgba(79, 70, 229, 0.28);
-  --ok: #047857;
-  --warn: #b45309;
-  --bad: #be123c;
-  --info: #4338ca;
-  --shadow: 0 16px 40px rgba(49, 46, 129, 0.1);
-  --side-bg: #1e1b4b;
-  --side-ink: #f5f3ff;
-  --side-muted: #c7c9e8;
-  --side-line: #312e81;
-  --side-active: rgba(165, 180, 252, 0.22);
+  --bg: #F7F7F8;
+  --bg-elev: #FFFFFF;
+  --bg-sunken: #F0F1F2;
+  --ink: #1A1A1A;
+  --ink-muted: #5B5B60;
+  --line: #D5D5D9;
+  --line-strong: #8A8A90;
+  --action-primary: #1A1A1A;
+  --action-primary-hover: #333333;
+  --accent: #1A1A1A;
+  --accent-ink: #FFFFFF;
+  --signal: #EB0A1E;
+  --pulse: rgba(26, 26, 26, 0.16);
+  --ok: #127A3F;
+  --warn: #9A6700;
+  --bad: #B00020;
+  --info: #005EA8;
+  --focus-ring: #005EA8;
+  --shadow: 0 8px 24px rgba(26, 26, 26, 0.08);
+  --side-bg: #1A1A1A;
+  --side-ink: #FFFFFF;
+  --side-muted: #A8A8AD;
+  --side-line: #333333;
+  --side-active: rgba(235, 10, 30, 0.18);
 }

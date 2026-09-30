@@ -5,7 +5,6 @@
 import { el } from "../dom.js";
 import { commit, getState, resetDemo } from "../store.js";
 import { can } from "../rbac.js";
-import { setTheme } from "../theme.js";
 import { env } from "../env.js";
 import { pageHeader, field, guardButton } from "../components/ui.js";
 import { confirmModal } from "../components/modal.js";
@@ -30,14 +29,7 @@ export function render(container) {
   const state = getState();
   const admin = can("settings", "update");
   container.replaceChildren(
-    pageHeader("Settings", "Indigo Pulse is the NH44 theme. Dark is a deep indigo field. Light is a cool paper surface. The same accent marks actions in both."),
-    el("section", { class: "card stack" }, [
-      el("h2", {}, "Appearance"),
-      el("div", { class: "cluster" }, [
-        el("button", { type: "button", class: `chip ${state.theme === "dark" ? "on" : ""}`, onClick: () => setTheme("dark") }, "Dark"),
-        el("button", { type: "button", class: `chip ${state.theme === "light" ? "on" : ""}`, onClick: () => setTheme("light") }, "Light"),
-      ]),
-    ]),
+    pageHeader("Settings", "NH44 follows the TKM application design system. Primary actions use black; Toyota Red is reserved for brand accents."),
     el("section", { class: "card stack" }, [
       el("h2", {}, "Connected plugins"),
       el("p", { class: "hint" }, "Status is read-only. Tokens, PATs, and client secrets are held by TKM in app-config.yaml. This mockup does not collect them."),

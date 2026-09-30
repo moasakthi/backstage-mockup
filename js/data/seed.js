@@ -27,7 +27,6 @@ export function buildSeed(now = Date.now()) {
   const apps = buildCatalog(now);
   return {
     version: 1,
-    theme: "dark",
     session: {
       status: "anonymous",
       userId: ADMIN_ID,
