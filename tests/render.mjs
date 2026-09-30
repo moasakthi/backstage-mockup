@@ -104,6 +104,8 @@ const pages = {
   access: await import("../js/pages/access.js"),
   audit: await import("../js/pages/audit.js"),
   settings: await import("../js/pages/settings.js"),
+  scorecard: await import("../js/pages/scorecard.js"),
+  templates: await import("../js/pages/templates.js"),
   profile: await import("../js/pages/profile.js"),
 };
 
@@ -144,7 +146,10 @@ pages.documents.render(new FakeNode("div"));
 pages.repos.render(new FakeNode("div"));
 for (const section of ["users", "groups", "roles"]) pages.access.render(new FakeNode("div"), { section });
 pages.audit.render(new FakeNode("div"));
-pages.settings.render(new FakeNode("div"));
+  pages.settings.render(new FakeNode("div"));
+  pages.scorecard.render(new FakeNode("div"));
+  pages.templates.render(new FakeNode("div"));
+  if (getState().drafts.template?.step !== 0) throw new Error("Template onboarding did not open on the template step");
 pages.profile.render(new FakeNode("div"));
 const { mountShell } = await import("../js/components/shell.js");
 const outlet = mountShell(document.getElementById("app"), { name: "dashboard" });

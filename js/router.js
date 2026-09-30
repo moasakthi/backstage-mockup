@@ -21,6 +21,8 @@ const loaders = {
   access: () => import("./pages/access.js"),
   audit: () => import("./pages/audit.js"),
   settings: () => import("./pages/settings.js"),
+  scorecard: () => import("./pages/scorecard.js"),
+  templates: () => import("./pages/templates.js"),
   profile: () => import("./pages/profile.js"),
   missing: () => import("./pages/missing.js"),
   denied: () => import("./pages/missing.js"),
@@ -44,6 +46,8 @@ export function parseLocation() {
   else if (a === "applications" && !b) route = { name: "applications", perm: ["applications", "read"], title: "Applications · NH44 IDP", query };
   else if (a === "applications") route = { name: "app", perm: ["applications", "read"], title: `${b} · NH44 IDP`, slug: b, tab: c || "overview", extra: d || "", more: e || "", query };
   else if (a === "onboard") route = { name: "onboard", perm: ["applications", "create"], title: "Onboard · NH44 IDP", query };
+  else if (a === "scorecard") route = { name: "scorecard", perm: ["applications", "read"], title: "Scorecard · NH44 IDP", query };
+  else if (a === "templates") route = { name: "templates", perm: ["applications", "read"], title: "Template onboarding · NH44 IDP", query };
   else if (["security", "quality", "deployments", "documents", "repos"].includes(a)) route = { name: "retired", title: "Applications · NH44 IDP", query };
   else if (a === "access") route = { name: "access", perm: ["access", "read"], title: "Access · NH44 IDP", section: b || "users", query };
   else if (a === "audit") route = { name: "audit", perm: ["audit", "read"], title: "Audit · NH44 IDP", query };

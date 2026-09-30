@@ -1,13 +1,13 @@
 /**
  * Public configuration for the NH44 IDP mockup.
- * Plugin credentials stay out of the browser. In the real deployment, TKM
- * holds tokens and API keys in Backstage app-config.yaml. Optional runtime
+ * Plugin credentials stay out of the browser. In the real deployment, the
+ * Internal Developer Portal holds tokens and API keys in Backstage app-config.yaml. Optional runtime
  * overrides can be supplied as window.NH44_ENV before this module loads.
  * Never put secrets in NH44_ENV.
  */
 const defaults = {
   portalName: "NH44 IDP",
-  organization: "TKM",
+  organization: "Internal Developer Portal",
   projectName: "NH44",
   githubOrg: "tkm-digital",
   entraTenant: "tkm.onmicrosoft.com",

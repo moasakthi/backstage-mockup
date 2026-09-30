@@ -6,6 +6,7 @@ import { el } from "../dom.js";
 import { commit, getState, resetDemo } from "../store.js";
 import { can } from "../rbac.js";
 import { env } from "../env.js";
+import { addDomain, listDomains, removeDomain } from "../services/domains.js";
 import { pageHeader, field, guardButton } from "../components/ui.js";
 import { confirmModal } from "../components/modal.js";
 import { toast } from "../components/toast.js";
@@ -29,10 +30,10 @@ export function render(container) {
   const state = getState();
   const admin = can("settings", "update");
   container.replaceChildren(
-    pageHeader("Settings", "NH44 follows the TKM application design system. Primary actions use black; Toyota Red is reserved for brand accents."),
+    pageHeader("Settings", "Connection status, assessment, domains, and demo data for the Internal Developer Portal."),
     el("section", { class: "card stack" }, [
       el("h2", {}, "Connected plugins"),
-      el("p", { class: "hint" }, "Status is read-only. Tokens, PATs, and client secrets are held by TKM in app-config.yaml. This mockup does not collect them."),
+      el("p", { class: "hint" }, "Status is read-only. Tokens, PATs, and client secrets stay in app-config.yaml. This portal does not collect them."),
       el("div", { class: "table-wrap" }, el("table", {}, [
         el("tbody", {}, PLUGINS.map(([name, detail]) => el("tr", {}, [
           el("td", {}, name),
@@ -41,6 +42,7 @@ export function render(container) {
         ]))),
       ])),
     ]),
+    domainSection(admin),
     el("section", { class: "card stack" }, [
       el("h2", {}, "Assessment"),
       el("p", { class: "hint" }, "Rule-based is the default. Ollama can be selected, and the test shows that this browser cannot reach it."),
@@ -91,6 +93,35 @@ export function render(container) {
       }),
     ]),
   );
+}
+
+function domainSection(admin) {
+  const domains = listDomains();
+  const input = el("input", {
+    type: "text",
+    placeholder: "Domain name",
+    "aria-label": "New domain",
+    disabled: !admin,
+  });
+  return el("section", { class: "card stack" }, [
+    el("h2", {}, "Domains"),
+    el("p", { class: "hint" }, "These domains appear when an application or a template service is onboarded."),
+    el("ul", { class: "domain-list" }, domains.map((domain) => el("li", {}, [
+      el("span", {}, domain),
+      guardButton("Remove", "settings", "update", "btn-ghost btn-sm", () => {
+        const error = removeDomain(domain);
+        if (error) toast(error, "bad");
+      }),
+    ]))),
+    el("div", { class: "cluster" }, [
+      input,
+      guardButton("Add domain", "settings", "update", "btn-primary", () => {
+        const error = addDomain(input.value);
+        if (error) toast(error, "bad");
+        else input.value = "";
+      }),
+    ]),
+  ]);
 }
 
 function save(partial, action, detail) {

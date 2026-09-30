@@ -42,7 +42,7 @@ export function buildSeed(now = Date.now()) {
       user(PEOPLE.rashi, ["role-developer"], 9),
     ],
     groups: [
-      { id: "grp-platform", name: "platform-admins", description: "Operates NH44 IDP for TKM.", memberIds: [ADMIN_ID], locked: true },
+      { id: "grp-platform", name: "platform-admins", description: "Operates the Internal Developer Portal.", memberIds: [ADMIN_ID], locked: true },
       { id: "grp-aidd", name: "aidd-engineering", description: "AIDD application owners.", memberIds: [PEOPLE.pavithra.id], locked: true },
       {
         id: "grp-connected",
@@ -138,8 +138,9 @@ export function buildSeed(now = Date.now()) {
       assessmentMode: "rule-based",
       ollamaEndpoint: "http://127.0.0.1:11434",
       grafanaBaseUrl: env.grafanaBaseUrl || "",
+      domains: ["AIDD", "Other", "Connected Apps"],
     },
-    drafts: { onboard: null },
+    drafts: { onboard: null, template: null },
     ui: { appsLayout: "grid" },
   };
 }

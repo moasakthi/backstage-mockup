@@ -1,18 +1,20 @@
 /** Marketing story (three quarters) and Microsoft Entra ID sign-in (one quarter). */
 import { el } from "../dom.js";
 import { commit, getState } from "../store.js";
+import { env } from "../env.js";
+import { openModal } from "../components/modal.js";
 
 const SLIDES = [
   {
-    kicker: "Toyota · Internal portal",
+    kicker: "Internal Developer Portal",
     title: "One portal for the developer journey.",
-    body: "NH44 IDP is the internal developer portal for TKM. Fourteen cloud applications, one Entra ID door, and the tools already connected: GitHub, Actions, Argo CD, AWS, Grafana, CodeQL, Jira, and Confluence.",
+    body: "NH44 IDP is the Internal Developer Portal. Fourteen cloud applications, one Entra ID door, and the tools already connected: GitHub, Actions, Argo CD, AWS, Grafana, CodeQL, Jira, and Confluence.",
     facts: [["14", "Applications in the assessed portfolio"], ["1", "Pilot to prove the path — gpms"], ["0", "Tokens typed into this portal"]],
   },
   {
     kicker: "Golden path",
     title: "Onboard a service without leaving the catalog.",
-    body: "Single existing repository, a new service from a template, a filled spreadsheet, or a multi-select from the GitHub organization. Assessment is rule-based. Integrations are autofetched from plugins TKM has already configured.",
+    body: "Single existing repository, a new service from a template, a filled spreadsheet, or a multi-select from the GitHub organization. Assessment is rule-based. Integrations are autofetched from plugins the Internal Developer Portal has already configured.",
     facts: [["Single", "Existing repo or new template"], ["Bulk", "Excel, CSV, or GitHub org"], ["EKS", "Primary golden path, Lambda where that is the target"]],
   },
   {
@@ -72,7 +74,7 @@ export function render(container) {
       ]),
       el("header", { class: "login-hero-brand" }, [
         el("p", { class: "login-brand-name" }, "NH44"),
-        el("p", { class: "login-brand-tag" }, "Internal developer portal"),
+        el("p", { class: "login-brand-tag" }, "Internal Developer Portal"),
       ]),
       el("div", { class: "slide-stage" }, slides),
       el("div", { class: "dots" }, dots),
@@ -80,13 +82,20 @@ export function render(container) {
     el("aside", { class: "login-pane" }, [
       el("div", { class: "login-pane-inner" }, [
         el("div", { class: "login-brand" }, [
-          el("img", { class: "brand-logo", src: "./NH44_logo.png", alt: "", width: "120", height: "120", decoding: "async" }),
+          el("img", { class: "brand-logo", src: "./NH44_logo.png", alt: "", width: "72", height: "72", decoding: "async" }),
           el("p", { class: "login-brand-name" }, "NH44"),
           el("h2", {}, "Sign In"),
         ]),
-        el("p", { class: "login-pane-copy" }, "Toyota employees use Microsoft Entra ID. This portal does not keep a local password."),
+        el("p", { class: "login-pane-copy" }, "Sign in with Microsoft Entra ID. This portal does not keep a local password."),
         button,
-        el("p", { class: "hint login-pane-meta" }, `Tenant ${"tkm.onmicrosoft.com"}. Plugins are already configured. This mock keeps data in the browser.`),
+        el("p", { class: "hint login-pane-meta" }, "Plugins are already configured. This mock keeps data in the browser."),
+        el("footer", { class: "login-legal" }, [
+          el("div", { class: "login-legal-links" }, [
+            legalLink("Terms & Conditions", "Terms & Conditions", TERMS),
+            legalLink("Privacy Policy", "Privacy Policy", PRIVACY),
+          ]),
+          el("p", { class: "login-copy" }, `© ${new Date().getFullYear()} ${env.portalName}. Internal Developer Portal. All rights reserved.`),
+        ]),
       ]),
     ]),
   ]));
@@ -108,6 +117,31 @@ function onKey(event) {
   if (event.key === "ArrowLeft") index = Math.max(0, index - 1);
   document.querySelectorAll(".slide").forEach((slide, slideIndex) => slide.classList.toggle("on", slideIndex === index));
   document.querySelectorAll(".dots button").forEach((dot, dotIndex) => dot.classList.toggle("on", dotIndex === index));
+}
+
+const TERMS = [
+  "This portal is for authorized users of the Internal Developer Portal.",
+  "Catalog data, assessments, and audit events in this mock stay in your browser.",
+  "Do not enter production tokens, passwords, or personal data that is not already part of the demo.",
+  "Access follows the role you are signed in as. Viewing as another role does not change your identity.",
+];
+
+const PRIVACY = [
+  "Sign-in is represented as Microsoft Entra ID. This mock does not send credentials to Microsoft.",
+  "The portal stores the demo catalog, drafts, and settings in local storage on this device.",
+  "Resetting demo data removes that local copy.",
+  "The assistant answers from the catalog already loaded in the portal.",
+];
+
+function legalLink(label, title, paragraphs) {
+  return el("button", {
+    type: "button",
+    class: "login-legal-link",
+    onClick: () => openModal({
+      title,
+      body: el("div", { class: "stack" }, paragraphs.map((text) => el("p", {}, text))),
+    }),
+  }, label);
 }
 
 async function signIn(button) {

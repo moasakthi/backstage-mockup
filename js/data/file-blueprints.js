@@ -243,7 +243,7 @@ variable "cluster_name" {
 }
 
 # Namespace and baseline tags for ${spec.slug}.
-# The EKS cluster itself is managed by TKM.
+# The EKS cluster itself is managed by the platform team.
 resource "kubernetes_namespace" "app" {
   metadata {
     name = "${spec.slug}"
@@ -472,7 +472,7 @@ createRoot(document.getElementById("root")).render(<App />);
   return (
     <main>
       <h1>${spec.name}</h1>
-      <p>TKM service surface, rendered inside the product UI.</p>
+      <p>Service surface, rendered inside the product UI.</p>
     </main>
   );
 }

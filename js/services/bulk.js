@@ -5,6 +5,7 @@ import { PEOPLE } from "../people.js";
 import { buildApp } from "../data/generate.js";
 import { blueprint, withStandardCi } from "../data/file-blueprints.js";
 import { assessRepo } from "./assessment.js";
+import { listDomains } from "./domains.js";
 
 export const BULK_COLUMNS = ["application_name", "description", "tags", "repo_url", "branch", "owner", "domain", "stack"];
 
@@ -160,7 +161,8 @@ export function recordsToApps(records, existingApps) {
     };
     let files = blueprint(fileSpec);
     if (ciMissing) files = withStandardCi(files, fileSpec);
-    const domain = ["AIDD", "Other", "Connected Apps"].includes(record.domain) ? record.domain : assessment.domain || "Other";
+    const allowed = listDomains();
+    const domain = allowed.includes(record.domain) ? record.domain : assessment.domain || allowed[0];
     const app = buildApp({
       slug,
       name,

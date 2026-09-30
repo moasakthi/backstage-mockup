@@ -19,10 +19,15 @@ import { assessRepo } from "../services/assessment.js";
 import { defaultIntegrations } from "../services/integrations.js";
 import { BULK_SAMPLE, parseCsv, recordsToApps, sheetToRecords, toCsv } from "../services/bulk.js";
 import { addApps, saveDraft } from "../services/catalog-actions.js";
+import { listDomains } from "../services/domains.js";
 import { emptyState, field, pageHeader, pill, stepper } from "../components/ui.js";
 import { toast } from "../components/toast.js";
 
-const DOMAINS = ["AIDD", "Other", "Connected Apps"];
+function domainOptions(selected) {
+  const domains = listDomains();
+  const values = !selected || domains.includes(selected) ? domains : [selected, ...domains];
+  return values.map((domain) => el("option", { value: domain }, domain));
+}
 
 function fresh() {
   return {
@@ -97,7 +102,7 @@ function choose(container) {
       card("existing", "Single", "Existing repository", "Assess a GitHub repository already in the configured organization."),
       card("new", "Single", "New service", "Start from a golden-path template with CI, CodeQL, Terraform, Argo CD, and OpenTelemetry."),
       card("bulk-file", "Bulk", "Template file", "Download CSV or Excel, fill it, and upload."),
-      card("bulk-org", "Bulk", "GitHub organization", "Fetch tkm-digital and choose the repositories to bring in."),
+      card("bulk-org", "Bulk", "GitHub organization", "Fetch the configured GitHub organization and choose the repositories to bring in."),
     ]),
     getState().drafts.onboard?.path ? null : el("p", { class: "hint" }, "NH44 records new entries in this browser catalog. It does not create repositories on GitHub."),
   );
@@ -127,7 +132,7 @@ function repoStep(container, draft) {
     field("Tags", input(data.tags, (value) => remember((next) => { next.existing.tags = value; }), { placeholder: "eks; aidd" })),
     field("Repository URL", input(data.repoUrl, (value) => remember((next) => { next.existing.repoUrl = value; }), { placeholder: `https://github.com/${env.githubOrg}/your-service` })),
     field("Branch", input(data.branch, (value) => remember((next) => { next.existing.branch = value; }))),
-    field("Domain", el("select", { value: data.domain, onChange: (event) => remember((next) => { next.existing.domain = event.target.value; }) }, DOMAINS.map((domain) => el("option", { value: domain }, domain)))),
+    field("Domain", el("select", { value: data.domain, onChange: (event) => remember((next) => { next.existing.domain = event.target.value; }) }, domainOptions(data.domain))),
     field("Owner", ownerSelect(data.ownerKey, (value) => remember((next) => { next.existing.ownerKey = value; }))),
     el("div", { class: "cluster" }, [
       el("button", { type: "button", class: "btn btn-primary", onClick: () => analyse(model()) }, "Analyse"),
@@ -304,10 +309,10 @@ function serviceStep(container, draft) {
     field("Repository name", input(data.repoName, (value) => remember((next) => {
       next.neu.repoLocked = true;
       next.neu.repoName = slugify(value);
-    }), { placeholder: "created under tkm-digital" })),
+    }), { placeholder: "repository-name" })),
     field("Description", el("textarea", { rows: "3", value: data.description, onInput: (event) => remember((next) => { next.neu.description = event.target.value; }) })),
     field("Tags", input(data.tags, (value) => remember((next) => { next.neu.tags = value; }))),
-    field("Domain", el("select", { value: data.domain, onChange: (event) => remember((next) => { next.neu.domain = event.target.value; }) }, DOMAINS.map((domain) => el("option", { value: domain }, domain)))),
+    field("Domain", el("select", { value: data.domain, onChange: (event) => remember((next) => { next.neu.domain = event.target.value; }) }, domainOptions(data.domain))),
     field("Owner", ownerSelect(data.ownerKey, (value) => remember((next) => { next.neu.ownerKey = value; }))),
     navButtons(0, () => {
       if (!model().neu.name.trim() || !model().neu.repoName) {

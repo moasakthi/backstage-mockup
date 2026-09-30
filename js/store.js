@@ -20,13 +20,24 @@ function persist() {
   }
 }
 
+function ensureShape(parsed) {
+  parsed.settings = parsed.settings || {};
+  if (!Array.isArray(parsed.settings.domains) || parsed.settings.domains.length === 0) {
+    parsed.settings.domains = ["AIDD", "Other", "Connected Apps"];
+  }
+  parsed.drafts = parsed.drafts || { onboard: null };
+  if (!Object.prototype.hasOwnProperty.call(parsed.drafts, "template")) parsed.drafts.template = null;
+  return parsed;
+}
+
 export function initStore() {
   const raw = storage.getItem(KEY);
   if (raw) {
     try {
       const parsed = JSON.parse(raw);
       if (parsed?.version === 1 && Array.isArray(parsed.apps)) {
-        state = parsed;
+        state = ensureShape(parsed);
+        persist();
         return state;
       }
     } catch {

@@ -7,11 +7,13 @@ import { searchPortal } from "../services/search.js";
 import { toast } from "./toast.js";
 
 const NAV = [
-  ["dashboard", "Dashboard", "#/dashboard"],
-  ["applications", "Applications", "#/applications"],
-  ["access", "Access", "#/access/users"],
-  ["audit", "Audit trail", "#/audit"],
-  ["settings", "Settings", "#/settings"],
+  { id: "dashboard", label: "Dashboard", href: "#/dashboard", perm: "dashboard" },
+  { id: "applications", label: "Applications", href: "#/applications", perm: "applications" },
+  { id: "scorecard", label: "Scorecard", href: "#/scorecard", perm: "applications" },
+  { id: "templates", label: "Template onboarding", href: "#/templates", perm: "applications" },
+  { id: "access", label: "Access", href: "#/access/users", perm: "access" },
+  { id: "audit", label: "Audit trail", href: "#/audit", perm: "audit" },
+  { id: "settings", label: "Settings", href: "#/settings", perm: "settings" },
 ];
 
 function logout() {
@@ -30,11 +32,11 @@ export function mountShell(root, route) {
       el("span", { class: "brand-mark" }, [
         el("img", { src: "./NH44_logo.png", alt: "NH44 IDP", width: "40", height: "40", decoding: "async" }),
       ]),
-      el("div", {}, [el("strong", {}, "NH44 - IDP"), el("span", {}, "TKM developer portal")]),
+      el("div", {}, [el("strong", {}, "NH44 - IDP"), el("span", {}, "Internal Developer Portal")]),
     ]),
-    el("nav", { class: "nav", "aria-label": "Primary" }, NAV.filter(([module]) => can(module, "read")).map(([module, label, href]) => {
-      const active = route.name === module || (module === "applications" && route.name === "app") || (module === "access" && route.name === "access");
-      return el("a", { href, class: active ? "active" : "", "aria-current": active ? "page" : null }, label);
+    el("nav", { class: "nav", "aria-label": "Primary" }, NAV.filter((item) => can(item.perm, "read")).map((item) => {
+      const active = route.name === item.id || (item.id === "applications" && route.name === "app") || (item.id === "access" && route.name === "access");
+      return el("a", { href: item.href, class: active ? "active" : "", "aria-current": active ? "page" : null }, item.label);
     })),
     el("div", { class: "side-foot" }, [
       el("button", { type: "button", class: "btn btn-ghost", onClick: logout }, "Log out"),
