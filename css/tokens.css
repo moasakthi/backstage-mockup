@@ -58,9 +58,9 @@
   --info: #005EA8;
   --focus-ring: #005EA8;
   --shadow: 0 8px 24px rgba(26, 26, 26, 0.08);
-  --side-bg: #1A1A1A;
-  --side-ink: #FFFFFF;
-  --side-muted: #A8A8AD;
-  --side-line: #333333;
-  --side-active: rgba(235, 10, 30, 0.18);
+  --side-bg: #FFFFFF;
+  --side-ink: #1A1A1A;
+  --side-muted: #5B5B60;
+  --side-line: #E4E4E7;
+  --side-active: rgba(26, 26, 26, 0.06);
 }

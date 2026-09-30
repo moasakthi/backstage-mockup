@@ -71,6 +71,7 @@ try {
   await run(`[...document.querySelectorAll("button")].find((button) => button.textContent.includes("Continue")).click()`);
   await pause(400);
   await expect("dashboard", `document.querySelector("h1")?.textContent === "Dashboard"`);
+  await expect("light sidebar", `getComputedStyle(document.querySelector(".sidebar")).backgroundColor === "rgb(255, 255, 255)" && getComputedStyle(document.querySelector(".nav a.active")).color === "rgb(26, 26, 26)"`);
   await expect("sidebar", `["Dashboard","Applications","Scorecard","Template onboarding","Access","Audit trail","Settings"].every((label) => [...document.querySelectorAll(".nav a")].some((link) => link.textContent === label)) && document.querySelectorAll(".nav a").length === 7`);
   await run(`location.hash = "#/scorecard"`);
   await pause(300);

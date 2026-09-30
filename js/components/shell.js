@@ -1,4 +1,4 @@
-/** Application chrome: asphalt sidebar, search, role preview, profile. */
+/** Application chrome: light sidebar, search, role preview, profile. */
 import { el } from "../dom.js";
 import { getState, commit } from "../store.js";
 import { can, effectiveRole } from "../rbac.js";
